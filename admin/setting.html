@@ -1,0 +1,515 @@
+{{template "header"}}
+<style>
+    .card-box {
+        padding: 0px;
+    }
+
+    thead {
+        background: #f5f5f5;
+    }
+
+    .btn-sm {
+        padding: 2px 6px;
+        font-size: 12px;
+    }
+
+    .text-danger {
+        color: #ff5d48 !important;
+        margin-right: 5px;
+    }
+
+    .yes_config {
+        border: 1px solid #0f8ce6;
+        padding: 2px 5px;
+        border-radius: 5px;
+        color: #0f8ce6;
+        font-size: 12px;
+    }
+
+    .no_config {
+        border: 1px solid #434e56;
+        padding: 2px 5px;
+        border-radius: 5px;
+        color: #434e56;
+        font-size: 12px;
+    }
+</style>
+<div class="row">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group pull-right m-t-15">
+                <button type="button" class="btn btn-custom" onclick="showSetting()"><i class="fa fa-cog"></i> 高级设置
+                </button>
+            </div>
+            <h4 class="page-title">系统设置</h4>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th width="15%">名称</th>
+                        <th>介绍</th>
+                        <th>更新时间</th>
+                        <th width="10%;">配置状态</th>
+                        <th width="10%;">状态</th>
+                        <th width="6%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableList">
+                    {{range $i, $e := .dataList}}
+                    <tr id="tr{{$e.type}}" data-id="{{$e.id}}">
+                        <td style="font-weight: bold;">{{$e.setting_name}} </td>
+                        <td>{{$e.setting_dis}}</td>
+                        <td id="trx{{$e.type}}">
+                            <script>var t ={{$e.update_time}};
+                            document.getElementById("trx{{$e.type}}").innerHTML = t.replace("T", " ").replace("+08:00", " ").replace("Z", "");</script>
+                        </td>
+                        <td>{{if ne $e.info ""}}
+                            <span class="yes_config">已配置</span>
+                        {{else}}
+                            <span class="no_config">未配置</span>
+                        {{end}}
+                        </td>
+                        <td><input type="checkbox" id="checkbox-{{$e.id}}" data-plugin="switchery"
+                                   onchange="updateStatusFunc('{{$e.id}}',this)" data-color="#039cfd" data-size="small"
+                        {{if eq $e.status 1}}
+                                   checked
+                        {{end}}
+                        />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary  btn-sm"
+                                    onclick="settingSubFunc('{{$e.id}}','{{$e.type}}')" data-toggle="modal"><i
+                                    class="fa fa-edit"></i> 配置
+                            </button>
+                        </td>
+                    </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">E-mail 通知设置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>发送人(账号)</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="请填写发送人账号">
+                </div>
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>密码</label>
+                    <input type="password" class="form-control" id="pass" name="pass" placeholder="请填写发送人密码">
+                </div>
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>SMTP</label>
+                    <input type="text" class="form-control" id="host" name="host" placeholder="例:smtp.126.com">
+                </div>
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>端口</label>
+                    <input type="number" class="form-control" id="port" name="port" placeholder="例:465">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="updateEmailPost()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="receiveEmailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">E-mail 通知设置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>发送人(账号)</label>
+                    <input type="email" class="form-control" id="alertEmail" name="alertEmail" placeholder="请填写发送人账号">
+                </div>
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>密码</label>
+                    <input type="password" class="form-control" id="alertPass" name="alertPass" placeholder="请填写发送人密码">
+                </div>
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>SMTP</label>
+                    <input type="text" class="form-control" id="alertHost" name="alertHost"
+                           placeholder="例:smtp.126.com">
+                </div>
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>端口</label>
+                    <input type="number" class="form-control" id="alertPort" name="alertPort" placeholder="例:465">
+                </div>
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>接收人</label>
+                    <textarea class="form-control" id="receive" name="receive" placeholder="接收人(群发请换行)" cols="30"
+                              rows="10"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" onclick="syncStmpConfig()">同步STMP配置</button>
+                <button type="submit" class="btn btn-primary" onclick="updateReceiveEmailPost()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ip Modal -->
+<div class="modal fade" id="ipWhitelistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">IP 白名单设置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>IP 列表</label>
+                    <textarea class="form-control" id="whiteIpList" name="whiteIpList" placeholder="请输入ip （多ip请换行）"
+                              cols="30"
+                              rows="10"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="saveWhiteIp()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="webHookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">WebHook Api 设置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>请输入 Url</label>
+                    <input type="url" class="form-control" id="webHookUrl" name="webHookUrl" placeholder="请填写 Url 地址">
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="submit" class="btn btn-primary" onclick="updateWebHookPost()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="passwdTMModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">密码脱敏符号设置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for=""><span class="text-danger">*</span>加密符号</label>
+                    <input type="url" class="form-control" id="passwdTMText" name="webHookUrl" placeholder="请配置加密符号">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="updatePasswdTM()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="showSetting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">高级设置</h4>
+            </div>
+            <div class="modal-body">
+                <button style="width: 100%;margin-bottom: 20px;" type="button" class="btn btn-custom"
+                        onclick="clearData(1)"><i class="fa fa-trash-o"></i>
+                    清空上钩数据
+                </button>
+                <button style="width: 100%;margin-bottom: 20px;" type="button" class="btn btn-custom"
+                        onclick="clearData(2)"><i
+                        class="fa fa-trash-o"></i>
+                    清空集群数据
+                </button>
+                <button style="width: 100%;" type="button" class="btn btn-custom" onclick="clearData(3)"><i
+                        class="fa fa-trash-o"></i>
+                    清空密码数据
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="" id="settingId">
+{{template "footer" }}
+<script>
+    function settingSubFunc(id, type) {
+        $("#settingId").val(id);
+        getSettingInfo(id);
+        switch (type) {
+            case "mail":
+                $('#myModal').modal('show');
+                break;
+            case "login":
+                $('#settingLoginModal').modal('show');
+                break;
+            case "alertMail":
+                $('#receiveEmailModal').modal('show');
+                break;
+            case "whiteIp":
+                $('#ipWhitelistModal').modal('show');
+                break;
+            case "webHook":
+                $("#webHookModal").modal('show');
+                break;
+            case "passwdTM":
+                $("#passwdTMModal").modal('show');
+                break;
+            default:
+                break
+        }
+    }
+
+    var syncStmpConfig = function () {
+        var id = $("#trmail ").data("id");
+        getSettingInfo(id, function () {
+            $("#alertEmail").val($("#email").val());
+            $("#alertPass").val($("#pass").val());
+            $("#alertHost").val($("#host").val());
+            $("#alertPort").val($("#port").val());
+        })
+    };
+
+    var getSettingInfo = function (id, cb) {
+        $.ajax({
+            type: "get",
+            url: "/get/setting/info?id=" + id
+        }).success(function (result) {
+            if (result.code == 200) {
+                var typeStr = result.data.type;
+                var arr = result.data.info.split("&&")
+                if (arr.length == 4 && typeStr == "mail") {
+                    $("#email").val(arr[2])
+                    $("#pass").val(arr[3])
+                    $("#host").val(arr[0])
+                    $("#port").val(arr[1])
+                } else if (arr.length == 2 && typeStr == "login") {
+                    $("#loginName").val(arr[0])
+                    $("#loginPwd").val(arr[1])
+                } else if (arr.length >= 4 && typeStr == "alertMail") {
+                    $("#alertEmail").val(arr[2])
+                    $("#alertPass").val(arr[3])
+                    $("#alertHost").val(arr[0])
+                    $("#alertPort").val(arr[1])
+                    var emailArr = arr.splice(4)
+                    var content = emailArr.join("\n")
+                    $("#receive").text(content)
+                } else if (arr.length >= 1 && typeStr == "whiteIp") {
+                    $("#whiteIpList").text(arr.join("\n"));
+                } else if (arr.length >= 1 && typeStr == "webHook") {
+                    $("#webHookUrl").val(arr[0]);
+                } else if (arr.length >= 1 && typeStr == "passwdTM") {
+                    $("#passwdTMText").val(arr[0]);
+                }
+                if (typeof cb == "function") {
+                    cb()
+                }
+            }
+        }).fail(function (err) {
+            console.log(err)
+        })
+    };
+
+    function updateEmailPost() {
+        var params = {
+            email: $("#email").val(),
+            pass: $("#pass").val(),
+            host: $("#host").val(),
+            port: $("#port").val(),
+            id: $("#settingId").val()
+        };
+
+        $.ajax({
+            type: "post",
+            url: "/post/setting/update",
+            data: params
+        }).success(function (result) {
+            if (result.code == 200) {
+                if (!$("#checkbox-" + params.id).prop("checked")) {
+                    $("#checkbox-" + params.id).click()
+                }
+            }
+            $('#myModal').modal('hide')
+
+        }).fail(function (err) {
+            console.log(err)
+        })
+    }
+
+    function updateReceiveEmailPost() {
+
+        var params = {
+            email: $("#alertEmail").val(),
+            pass: $("#alertPass").val(),
+            host: $("#alertHost").val(),
+            port: $("#alertPort").val(),
+            receive: $("#receive").val().split(/[\s\n]/).join(","),
+            id: $("#settingId").val()
+        };
+
+        $.ajax({
+            type: "post",
+            url: "/post/setting/updateAlertMail",
+            data: params
+        }).success(function (result) {
+            if (result.code == 200) {
+                if (!$("#checkbox-" + params.id).prop("checked")) {
+                    $("#checkbox-" + params.id).click()
+                }
+            }
+            $('#receiveEmailModal').modal('hide')
+
+        }).fail(function (err) {
+            console.log(err)
+        })
+    }
+
+    function updateStatusFunc(id, ele) {
+        var params = {
+            "id": id,
+            "status": $(ele).is(":checked") ? 1 : 0
+        };
+
+        $.ajax({
+            type: "post",
+            url: "/post/setting/checkSetting",
+            data: params
+        }).success(function (result) {
+            if (result.code == 10003) {
+                swal(result.msg)
+                $(ele).click()
+            }
+        }).fail(function (err) {
+            console.log(err)
+        })
+    }
+
+    function saveWhiteIp() {
+        var params = {
+            whiteIpList: $("#whiteIpList").val().split(/[\s\n]/).join(","),
+            id: $("#settingId").val()
+        };
+        $.ajax({
+            type: "post",
+            url: "/post/setting/updateWhiteIp",
+            data: params
+        }).success(function (result) {
+            if (result.code == 200) {
+                if (!$("#checkbox-" + params.id).prop("checked")) {
+                    $("#checkbox-" + params.id).click()
+                }
+            }
+            $('#ipWhitelistModal').modal('hide')
+
+        }).fail(function (err) {
+            console.log(err)
+        })
+    }
+
+    function updateWebHookPost() {
+        var params = {
+            webHookUrl: $("#webHookUrl").val(),
+            id: $("#settingId").val()
+        };
+        $.ajax({
+            type: "post",
+            url: "/post/setting/updateWebHook",
+            data: params
+        }).success(function (result) {
+            if (result.code == 200) {
+                if (!$("#checkbox-" + params.id).prop("checked")) {
+                    $("#checkbox-" + params.id).click()
+                }
+            }
+            $('#webHookModal').modal('hide')
+
+        }).fail(function (err) {
+            console.log(err)
+        })
+    }
+
+    function updatePasswdTM() {
+        var params = {
+            text: $("#passwdTMText").val(),
+            id: $("#settingId").val()
+        };
+        $.ajax({
+            type: "post",
+            url: "/post/setting/updatePasswdTM",
+            data: params
+        }).success(function (result) {
+            if (result.code == 200) {
+                if (!$("#checkbox-" + params.id).prop("checked")) {
+                    $("#checkbox-" + params.id).click()
+                }
+            }
+            $('#passwdTMModal').modal('hide');
+
+        }).fail(function (err) {
+            console.log(err)
+        })
+    }
+
+    function showSetting() {
+        $('#showSetting').modal('show');
+    }
+
+    function clearData(type) {
+        swal("success", "正在清空数据...", 'success');
+
+        $.ajax({
+            type: "POST",
+            url: "/post/setting/clearData",
+            dataType: "json",
+            data: {
+                "type": type
+            },
+            success: function (e) {
+                if (e.code == 200) {
+                    swal("success", "清空成功", 'success');
+                } else {
+                    swal("清空失败", e.msg, 'error');
+                }
+            },
+            error: function (e) {
+                swal("清空失败", "请 Github 提交 Issues", 'error');
+            }
+        });
+    }
+</script>

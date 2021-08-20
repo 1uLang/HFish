@@ -1,0 +1,1130 @@
+{{template "header"}}
+<style>
+    .title {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 30px;
+        color: #383838;
+    }
+
+    .xing {
+        color: #ff0101;
+        margin-right: 5px;
+    }
+
+    .openx {
+        background: #3dd209;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        display: -webkit-inline-box;
+        margin-right: 10px;
+    }
+
+    .closex {
+        background: #dc0e0e;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        display: -webkit-inline-box;
+        margin-right: 10px;
+    }
+
+    .m-b-10 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .titlea {
+        font-size: 16px;
+        font-weight: bold;
+        border-left: 4px solid #60aff4;
+        padding-left: 15px;
+    }
+
+    .form-x {
+        line-height: 35px;
+        height: 35px;
+    }
+
+    .lb_web {
+        color: #039cfd;
+    }
+
+    .lb_ssh {
+        color: #953fb9;
+    }
+
+    .lb_redis {
+        color: #e44242;
+    }
+
+    .lb_mysql {
+        color: #cabd23;
+    }
+
+    .lb_ftp {
+        color: #32cc16;
+    }
+
+    .lb_telnet {
+        color: #6b79c1;
+    }
+
+    .lb_deep {
+        color: #000000;
+    }
+
+    .lb_mem_cache {
+        color: #3d9671;
+    }
+
+    .lb_es {
+        color: #0177a3;
+    }
+
+    .lb_tftp {
+        color: #452b6d;
+    }
+
+    .lb_vnc {
+        color: #3c6f40;
+    }
+
+    .lb_http {
+        color: #56a996;
+    }
+
+    .lb_custom {
+        color: #8c600e;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="btn-group pull-right m-t-15">
+            <a type="button" class="btn btn-custom" href="/data">
+                切换大屏 <i class="ion-log-in"></i>
+            </a>
+        </div>
+        <h4 class="page-title">仪表盘</h4>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+        <div class="card-box tilebox-two">
+            <i class="icon-ghost  pull-xs-right text-muted"></i>
+            <h6 class="lb_ssh text-uppercase m-b-15 m-t-10">SSH</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.sshSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+        <div class="card-box tilebox-two">
+            <i class="icon-layers pull-xs-right text-muted"></i>
+            <h6 class="lb_redis text-uppercase m-b-15 m-t-10">Redis</h6>
+            <h2 class="m-b-10" data-plugin="counterup">{{.redisSum}}</h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+        <div class="card-box tilebox-two">
+            <i class="icon-chart pull-xs-right text-muted"></i>
+            <h6 class="lb_mysql text-uppercase m-b-15 m-t-10">Mysql</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.mysqlSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+        <div class="card-box tilebox-two">
+            <i class="icon-layers pull-xs-right text-muted"></i>
+            <h6 class="lb_ftp text-uppercase m-b-15 m-t-10">FTP</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.ftpSum}}</span></h2>
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+        <div class="card-box tilebox-two">
+            <i class="icon-social-pintarest pull-xs-right text-muted"></i>
+            <h6 class="lb_mem_cache text-uppercase m-b-15 m-t-10">MemCache</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.memCacheSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2">
+        <div class="card-box tilebox-two">
+            <i class="icon-social-spotify pull-xs-right text-muted"></i>
+            <h6 class="lb_telnet text-uppercase m-b-15 m-t-10">TELNET</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.telnetSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+        <div class="card-box tilebox-two">
+            <i class="icon-fire pull-xs-right text-muted"></i>
+            <h6 class="lb_web text-uppercase m-b-15 m-t-10">WEB</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.webSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+        <div class="card-box tilebox-two">
+            <i class="icon-globe pull-xs-right text-muted"></i>
+            <h6 class="lb_deep text-uppercase m-b-15 m-t-10">DEEP</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.deepSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+        <div class="card-box tilebox-two">
+            <i class="icon-plane pull-xs-right text-muted"></i>
+            <h6 class="lb_http text-uppercase m-b-15 m-t-10">HTTP代理</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.httpSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+        <div class="card-box tilebox-two">
+            <i class="icon-cursor pull-xs-right text-muted"></i>
+            <h6 class="lb_tftp text-uppercase m-b-15 m-t-10">TFTP</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.tftpSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+        <div class="card-box tilebox-two">
+            <i class="icon-diamond pull-xs-right text-muted"></i>
+            <h6 class="lb_es text-uppercase m-b-15 m-t-10">ES</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.esSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+        <div class="card-box tilebox-two">
+            <i class="icon-target pull-xs-right text-muted"></i>
+            <h6 class="lb_custom text-uppercase m-b-15 m-t-10">VNC</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.vncSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+        <div class="card-box tilebox-two">
+            <i class="icon-cup pull-xs-right text-muted"></i>
+            <h6 class="lb_vnc text-uppercase m-b-15 m-t-10">CUSTOM</h6>
+            <h2 class="m-b-10"><span data-plugin="counterup">{{.customSum}}</span></h2>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card-box">
+            <p class="titlea">最近24小时</p>
+            <div id="myChart" style="width:100%;height:200px;"></div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card-box" style="height: 676px;">
+            <p class="title">服务状态</p>
+        {{if eq .apiStatus "1"}}
+            <p><span class="openx"></span>API</p>
+        {{else}}
+            <p><span class="closex"></span>API</p>
+        {{end}}
+
+        {{if eq .apiStatus "1"}}
+            <p><span class="openx"></span>PLUG</p>
+        {{else}}
+            <p><span class="closex"></span>PLUG</p>
+        {{end}}
+
+        {{if eq .webStatus "1"}}
+            <p><span class="openx"></span>WEB</p>
+        {{else}}
+            <p><span class="closex"></span>WEB</p>
+        {{end}}
+
+        {{if eq .deepStatus "1"}}
+            <p><span class="openx"></span>DEEP</p>
+        {{else}}
+            <p><span class="closex"></span>DEEP</p>
+        {{end}}
+
+        {{if eq .sshStatus "1"}}
+            <p><span class="openx"></span>SSH</p>
+        {{ else if eq .sshStatus "2"}}
+            <p><span class="openx"></span>SSH</p>
+        {{else}}
+            <p><span class="closex"></span>SSH</p>
+        {{end}}
+
+        {{if eq .redisStatus "1"}}
+            <p><span class="openx"></span>REDIS</p>
+        {{else}}
+            <p><span class="closex"></span>REDIS</p>
+        {{end}}
+
+        {{if eq .mysqlStatus "1"}}
+            <p><span class="openx"></span>MYSQL</p>
+        {{else}}
+            <p><span class="closex"></span>MYSQL</p>
+        {{end}}
+
+        {{if eq .telnetStatus "1"}}
+            <p><span class="openx"></span>TELNET</p>
+        {{else}}
+            <p><span class="closex"></span>TELNET</p>
+        {{end}}
+
+        {{if eq .ftpStatus "1"}}
+            <p><span class="openx"></span>FTP</p>
+        {{else}}
+            <p><span class="closex"></span>FTP</p>
+        {{end}}
+
+        {{if eq .memCacheStatus "1"}}
+            <p><span class="openx"></span>MemCache</p>
+        {{else}}
+            <p><span class="closex"></span>MemCache</p>
+        {{end}}
+
+        {{if eq .httpStatus "1"}}
+            <p><span class="openx"></span>HTTP</p>
+        {{else}}
+            <p><span class="closex"></span>HTTP</p>
+        {{end}}
+
+        {{if eq .tftpStatus "1"}}
+            <p><span class="openx"></span>TFTP</p>
+        {{else}}
+            <p><span class="closex"></span>TFTP</p>
+        {{end}}
+
+        {{if eq .esStatus "1"}}
+            <p><span class="openx"></span>ElasticSearch</p>
+        {{else}}
+            <p><span class="closex"></span>ElasticSearch</p>
+        {{end}}
+
+        {{if eq .vncStatus "1"}}
+            <p><span class="openx"></span>VNC</p>
+        {{else}}
+            <p><span class="closex"></span>VNC</p>
+        {{end}}
+
+        {{if eq .customStatus "1"}}
+            <p><span class="openx"></span>CUSTOM</p>
+        {{else}}
+            <p><span class="closex"></span>CUSTOM</p>
+        {{end}}
+
+        </div>
+    </div>
+
+
+    <div class="col-md-5">
+        <div class="card-box">
+            <p class="titlea">[攻击地区] TOP10</p>
+            <div id="myChart1" style="width:100%;height:300px;"></div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card-box">
+            <p class="titlea">[攻击IP] TOP10</p>
+            <div id="myChart2" style="width:100%;height:300px;"></div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card-box">
+            <p class="titlea">账号统计</p>
+            <div id="myChart3" style="width:100%;height:200px;"></div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card-box">
+            <p class="titlea">密码统计</p>
+            <div id="myChart4" style="width:100%;height:200px;"></div>
+        </div>
+    </div>
+
+</div>
+{{/*<div id="myRegInfo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">*/}}
+{{/*<div class="modal-dialog" style="width: 486px;">*/}}
+{{/*<div class="modal-content">*/}}
+{{/*<div class="modal-header">*/}}
+{{/*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>*/}}
+{{/*<h6 class="modal-title" id="myModalLabel">请填写 - 收集需求为了更好的 HFish</h6>*/}}
+{{/*</div>*/}}
+{{/*<div class="modal-body">*/}}
+{{/*<div class="form-horizontal">*/}}
+
+{{/*<div class="form-group form-x">*/}}
+{{/*<label for="inputPassword3" class="col-sm-2 control-label"><span*/}}
+{{/*class="xing">*</span>使用者</label>*/}}
+{{/*<div class="col-sm-10">*/}}
+{{/*<input type="text" class="form-control" id="reg_use" placeholder="请输入企业名或个人网名(真名)">*/}}
+{{/*</div>*/}}
+{{/*</div>*/}}
+
+{{/*<div class="form-group form-x">*/}}
+{{/*<label for="reg_mail" class="col-sm-2 control-label"><span class="xing">*</span>邮箱</label>*/}}
+{{/*<div class="col-sm-10">*/}}
+{{/*<input type="email" class="form-control" id="reg_mail" placeholder="请输入公司或个人邮箱">*/}}
+{{/*</div>*/}}
+{{/*</div>*/}}
+{{/*</div>*/}}
+{{/*<div style="clear: both"></div>*/}}
+{{/*</div>*/}}
+{{/*<div class="modal-footer">*/}}
+{{/*<button type="button" class="btn btn-primary">提交信息</button>*/}}
+{{/*</div>*/}}
+{{/*</div>*/}}
+{{/*</div>*/}}
+{{/*</div>*/}}
+{{template "footer" }}
+<script type="text/javascript" src="/static/data/js/echarts-3.8.5.min.js"></script>
+<script type="text/javascript" src="/static/libs/moment/moment.min.js"></script>
+<script type="text/javascript" src="/static/data/js/echarts-wordcloud.min.js"></script>
+<script>
+    // $('#myRegInfo').modal('show');
+
+    var m = moment(new Date());
+
+    var arr = new Array();
+
+    for (var i = 0; i < 24; i++) {
+        var h = m.subtract(1, 'h').hours();
+        if (h >= 0 && h < 10) {
+            arr.push("0" + h.toString())
+        } else {
+            arr.push(h.toString())
+        }
+    }
+
+    var xdata = arr.reverse();
+
+    var webData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var sshData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var redisData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var mysqlData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var deepData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var ftpData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var telnetData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var memCacheData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var httpData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var tftpData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+
+    var esData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+
+    var vncData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var customData = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ];
+
+    var myChart = echarts.init(document.getElementById('myChart'));
+
+    $.ajax({
+        type: "GET",
+        url: "/get/dashboard/data",
+        dataType: "json",
+        success: function (e) {
+            if (e.code == 200) {
+                var d = e.data;
+
+                for (var item in d.mysql) {
+                    var index = xdata.indexOf(item);
+                    mysqlData[index] = parseInt(d.mysql[item]);
+                }
+
+                for (var item in d.redis) {
+                    var index = xdata.indexOf(item);
+                    redisData[index] = parseInt(d.redis[item]);
+                }
+
+                for (var item in d.ssh) {
+                    var index = xdata.indexOf(item);
+                    sshData[index] = parseInt(d.ssh[item]);
+                }
+
+                for (var item in d.web) {
+                    var index = xdata.indexOf(item);
+                    webData[index] = parseInt(d.web[item]);
+                }
+
+                for (var item in d.deep) {
+                    var index = xdata.indexOf(item);
+                    deepData[index] = parseInt(d.deep[item]);
+                }
+
+                for (var item in d.ftp) {
+                    var index = xdata.indexOf(item);
+                    ftpData[index] = parseInt(d.ftp[item]);
+                }
+
+                for (var item in d.telnet) {
+                    var index = xdata.indexOf(item);
+                    telnetData[index] = parseInt(d.telnet[item]);
+                }
+
+                for (var item in d.memCache) {
+                    var index = xdata.indexOf(item);
+                    memCacheData[index] = parseInt(d.memCache[item]);
+                }
+
+                for (var item in d.httpMap) {
+                    var index = xdata.indexOf(item);
+                    httpData[index] = parseInt(d.httpMap[item]);
+                }
+
+                for (var item in d.vncMap) {
+                    var index = xdata.indexOf(item);
+                    vncData[index] = parseInt(d.vncMap[item]);
+                }
+
+                for (var item in d.tftpMap) {
+                    var index = xdata.indexOf(item);
+                    tftpData[index] = parseInt(d.tftpMap[item]);
+                }
+
+                for (var item in d.esMap) {
+                    var index = xdata.indexOf(item);
+                    esData[index] = parseInt(d.esMap[item]);
+                }
+
+
+                for (var item in d.customMap) {
+                    var index = xdata.indexOf(item);
+                    customData[index] = parseInt(d.customMap[item]);
+                }
+
+
+                var option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            label: {
+                                backgroundColor: '#6a7985'
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['WEB', 'DEEP', 'SSH', 'REDIS', 'MYSQL', 'TELNET', 'FTP', 'MEMCACHE', 'HTTP', 'TFTP', 'VNC', 'ES', 'CUSTOM']
+                    },
+                    grid: {
+                        left: '0%',
+                        right: '2%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: xdata
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'WEB',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: webData
+                        },
+                        {
+                            name: 'DEEP',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: deepData
+                        },
+                        {
+                            name: 'SSH',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: sshData
+                        },
+                        {
+                            name: 'REDIS',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: redisData
+                        },
+                        {
+                            name: 'MYSQL',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: mysqlData
+                        },
+                        {
+                            name: 'TELNET',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: telnetData
+                        },
+                        {
+                            name: 'FTP',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: ftpData
+                        },
+                        {
+                            name: 'MEMCACHE',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: memCacheData
+                        },
+                        {
+                            name: 'HTTP',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: httpData
+                        },
+                        {
+                            name: 'TFTP',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: tftpData
+                        },
+                        {
+                            name: 'VNC',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: vncData
+                        },
+                        {
+                            name: 'ES',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: esData
+                        },
+                        {
+                            name: 'CUSTOM',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {normal: {}},
+                            data: customData
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+            }
+        }
+    });
+
+
+    var myChart1 = echarts.init(document.getElementById('myChart1'));
+    var myChart2 = echarts.init(document.getElementById('myChart2'));
+
+
+    $.ajax({
+        type: "GET",
+        url: "/get/dashboard/pie_data",
+        dataType: "json",
+        success: function (e) {
+            var d = e.data;
+
+            console.log(d);
+
+            var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                series: [
+                    {
+                        name: '来源地区',
+                        type: 'pie',
+                        radius: '70%',
+                        center: ['50%', '60%'],
+                        data: d.regionList,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            myChart1.setOption(option);
+
+
+            var option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                series: [
+                    {
+                        name: '攻击者IP',
+                        type: 'pie',
+                        radius: '70%',
+                        center: ['50%', '60%'],
+                        data: d.ipList,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+
+            myChart2.setOption(option);
+        }
+    });
+
+    var myChart3 = echarts.init(document.getElementById('myChart3'));
+
+    $.ajax({
+        type: "GET",
+        url: "/data/get/account",
+        dataType: "json",
+        success: function (e) {
+            var d = e.data;
+
+            var option = {
+                tooltip: {
+                    show: true
+                },
+                series: [{
+                    name: '账号',
+                    type: "wordCloud",
+                    gridSize: 6,
+                    shape: 'circle',
+                    sizeRange: [12, 50],
+                    width: '100%',
+                    height: '100%',
+                    textStyle: {
+                        normal: {
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    },
+                    data: d
+                }]
+
+            };
+
+            myChart3.setOption(option);
+        }
+    });
+
+    var myChart4 = echarts.init(document.getElementById('myChart4'));
+
+    $.ajax({
+        type: "GET",
+        url: "/data/get/password",
+        dataType: "json",
+        success: function (e) {
+            var d = e.data;
+
+            var option = {
+                tooltip: {
+                    show: true
+                },
+                series: [{
+                    name: '密码',
+                    type: "wordCloud",
+                    gridSize: 6,
+                    shape: 'circle',
+                    sizeRange: [12, 50],
+                    width: '100%',
+                    height: '100%',
+                    textStyle: {
+                        normal: {
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    },
+                    data: d
+                }]
+
+            };
+
+            myChart4.setOption(option);
+        }
+    });
+
+    window.onresize = function () {
+        myChart.resize();
+        myChar1.resize();
+        myChar2.resize();
+        myChar3.resize();
+        myChar4.resize();
+    };
+</script>
