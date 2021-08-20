@@ -1,19 +1,19 @@
 package mysql
 
 import (
+	"HFish/core/pool"
+	"HFish/core/report"
+	"HFish/core/rpc/client"
+	"HFish/error"
+	"HFish/utils/is"
+	"HFish/utils/log"
+	"HFish/utils/try"
 	"bytes"
 	"encoding/binary"
 	"net"
-	"syscall"
-	"strings"
-	"HFish/error"
-	"HFish/core/report"
-	"HFish/utils/try"
-	"HFish/utils/log"
-	"HFish/utils/is"
-	"HFish/core/rpc/client"
 	"strconv"
-	"HFish/core/pool"
+	"strings"
+	"syscall"
 	"time"
 )
 
@@ -61,6 +61,8 @@ func Start(addr string, files string) {
 
 			if err != nil {
 				log.Pr("Mysql", "127.0.0.1", "Mysql 连接失败", err)
+				wg.Done()
+				return
 			}
 
 			arr := strings.Split(conn.RemoteAddr().String(), ":")
@@ -78,7 +80,6 @@ func Start(addr string, files string) {
 			}
 
 			go connectionClientHandler(conn)
-
 			wg.Done()
 		})
 	}

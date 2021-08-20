@@ -31,7 +31,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"syscall"
 	"time"
 )
 
@@ -393,6 +392,8 @@ func Run() {
 
 	// 启动 admin 管理后台
 	adminAddr := conf.Get("admin", "addr")
+	certFile := conf.Get("admin", "cert")
+	keyFile := conf.Get("admin", "key")
 
 	serverAdmin := &http.Server{
 		Addr:         adminAddr,
@@ -401,9 +402,17 @@ func Run() {
 		WriteTimeout: 10 * time.Second,
 	}
 
-	fmt.Printf("pid is %d", syscall.Getpid())
-
-	serverAdmin.ListenAndServe()
+	if certFile != "" && keyFile != "" {
+		fmt.Println("https ", adminAddr, " start ...")
+		if err := serverAdmin.ListenAndServeTLS(certFile, keyFile); err != nil {
+			panic(err)
+		}
+	} else {
+		fmt.Println("http ", adminAddr, " start ...")
+		if err := serverAdmin.ListenAndServe(); err != nil {
+			panic(err)
+		}
+	}
 }
 
 func Init() {
