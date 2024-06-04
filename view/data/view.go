@@ -1,15 +1,15 @@
 package data
 
 import (
+	"HFish/core/dbUtil"
+	"HFish/error"
+	"HFish/utils/conf"
+	"HFish/utils/log"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
-	"fmt"
-	"HFish/core/dbUtil"
 	"strconv"
-	"HFish/utils/log"
-	"HFish/error"
-	"HFish/utils/conf"
 )
 
 func Html(c *gin.Context) {
@@ -157,7 +157,7 @@ func GetNewInfo(c *gin.Context) {
 // 获取统计账号
 func GetAccountInfo(c *gin.Context) {
 	var result []map[string]interface{}
-	err := dbUtil.DB().Table(&result).Query("select account,count(0) as sum from hfish_passwd GROUP BY account ORDER BY sum desc;")
+	result, err := dbUtil.DB().Table(&result).Query("select account,count(0) as sum from hfish_passwd GROUP BY account ORDER BY sum desc;")
 
 	if err != nil {
 		log.Pr("HFish", "127.0.0.1", "查询SQL失败", err)
@@ -182,7 +182,7 @@ func GetAccountInfo(c *gin.Context) {
 // 获取统计密码
 func GetPasswdInfo(c *gin.Context) {
 	var result []map[string]interface{}
-	err := dbUtil.DB().Table(&result).Query("select password,count(0) as sum from hfish_passwd GROUP BY password ORDER BY sum desc;")
+	result, err := dbUtil.DB().Table(&result).Query("select password,count(0) as sum from hfish_passwd GROUP BY password ORDER BY sum desc;")
 
 	if err != nil {
 		log.Pr("HFish", "127.0.0.1", "查询SQL失败", err)
@@ -207,7 +207,7 @@ func GetPasswdInfo(c *gin.Context) {
 // 获取全球攻击数量
 func GetWordInfo(c *gin.Context) {
 	var result []map[string]interface{}
-	err := dbUtil.DB().Table(&result).Query("select region,count(1) as sum from hfish_info GROUP BY region;")
+	result, err := dbUtil.DB().Table(&result).Query("select region,count(1) as sum from hfish_info GROUP BY region;")
 
 	if err != nil {
 		log.Pr("HFish", "127.0.0.1", "查询SQL失败", err)

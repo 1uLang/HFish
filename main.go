@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"HFish/utils/setting"
+	"fmt"
 	"os"
 )
 
 func main() {
-	//setting.Run()
 	args := os.Args
 	if args == nil || len(args) < 2 {
 		setting.Help()

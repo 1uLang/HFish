@@ -1,14 +1,14 @@
 package dashboard
 
 import (
+	"HFish/core/dbUtil"
+	"HFish/error"
+	"HFish/utils/cache"
+	"HFish/utils/conf"
+	"HFish/utils/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"HFish/core/dbUtil"
-	"HFish/utils/conf"
 	"strconv"
-	"HFish/error"
-	"HFish/utils/log"
-	"HFish/utils/cache"
 )
 
 func Html(c *gin.Context) {
@@ -83,7 +83,7 @@ func Html(c *gin.Context) {
 
 func getData(sql string) map[string]interface{} {
 	var result []map[string]interface{}
-	err := dbUtil.DB().Table(&result).Query(sql)
+	result, err := dbUtil.DB().Table(&result).Query(sql)
 
 	if err != nil {
 		log.Pr("HFish", "127.0.0.1", "查询SQL失败", err)
