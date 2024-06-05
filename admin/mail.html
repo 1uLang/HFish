@@ -1,6 +1,16 @@
 {{template "header"}}
 <script type="text/javascript" src="/static/libs/wangeditor3/wangEditor.css"></script>
 <style>
+    .title_1 {
+        font-family: MicrosoftYaHeiUI-Bold;
+        font-size: 14px;
+        color: #2B3D51;
+        line-height: 16px;
+        border-left: 3px solid  #2B3D51;
+        padding-left: 3px;
+        margin: 15px 0;
+        margin-left:20px;
+    }
     .card-box {
         padding: 0px;
     }
@@ -46,20 +56,18 @@
     .w-e-text-container {
         z-index: 999;
     }
-
 </style>
 
 <div class="row">
     <!-- Page-Title -->
-    <div class="col-sm-12">
-        <h4 class="page-title">邮件群发</h4>
+    <div class="row">
+        <h4 class="title_1">邮件群发</h4>
     </div>
-
     <div class="col-sm-12">
         <div class="card-box pdbox">
             <div class="img">
-<!--                <img src="/static/images/xy.png" class="xyimg">-->
-<!--                <p>人不努力，和咸鱼有什么区别？</p>-->
+                <img src="/static/images/xy.png" class="xyimg">
+                <p>人不努力，和咸鱼有什么区别？</p>
             </div>
             <div class="col-md-6">
                 <h4 class="header-title m-t-0 m-b-30 title">基本信息</h4>
@@ -139,4 +147,6 @@
             }
         })
     }
+    $('.w-e-menu').css('z-index',200);
+    $('.w-e-text-container').css('z-index',200);
 </script>

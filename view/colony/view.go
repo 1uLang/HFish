@@ -1,11 +1,11 @@
 package colony
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"HFish/core/dbUtil"
 	"HFish/error"
 	"HFish/utils/log"
+	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Html(c *gin.Context) {
@@ -20,11 +20,7 @@ func GetColony(c *gin.Context) {
 		log.Pr("HFish", "127.0.0.1", "获取蜜罐集群列表失败", err)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": error.ErrSuccessCode,
-		"msg":  error.ErrSuccessMsg,
-		"data": result,
-	})
+	c.JSON(http.StatusOK, error.ErrSuccessWithData(result))
 }
 
 // 删除集群
@@ -37,8 +33,5 @@ func PostColonyDel(c *gin.Context) {
 		log.Pr("HFish", "127.0.0.1", "删除集群失败", err)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": error.ErrSuccessCode,
-		"msg":  error.ErrSuccessMsg,
-	})
+	c.JSON(http.StatusOK, error.ErrSuccess)
 }

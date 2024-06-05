@@ -61,6 +61,7 @@
 - **`cd`** 到程序根目录，修改 **`config.ini`** 配置文件
 - 执行 **`./HFish run`** 启动服务
 - 浏览器输入 **http://localhost:9001** 打开
+- 默认用户名/密码：**`admin / =HFish@2020=`**
 
 
 ## 部分界面展示
@@ -123,13 +124,7 @@
 ## 关于
 
 
-> 目前只有我一个人
-
-
-**Team：** HackLC
-
-
-**官网：** https://hack.lc
+**官网：** https://hfish.io
 
 
 **专注安全行业，一心打造好产品**
@@ -137,7 +132,7 @@
 
 ## 联系我
 
-**E-mail:** **`lauixData#gmail.com`**
+**E-mail:** **`water#hfish.io`**
 
 
 ## 反馈群

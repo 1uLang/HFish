@@ -112,13 +112,7 @@
 ## About
 
 
-> I'm the only one right now
-
-
-**Team：** HackLC
-
-
-**Website：** https://hack.lc
+**Website：** https://hfish.io
 
 
 **Focus on the safety industry, focus on building good products**
@@ -126,4 +120,4 @@
 
 ## Contact me
 
-**E-mail:** **`lauixData#gmail.com`**
+**E-mail:** **`water#hfish.io`**

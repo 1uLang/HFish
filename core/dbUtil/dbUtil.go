@@ -12,10 +12,12 @@ var engin *gorose.Connection
 
 func init() {
 	var err error
+
 	dbType := conf.Get("admin", "db_type")
 	dbStr := conf.Get("admin", "db_str")
 	dbMaxOpen := conf.GetInt("admin", "db_max_open")
 	dbMaxIdle := conf.GetInt("admin", "db_max_idle")
+
 	if dbType == "sqlite" {
 		engin, err = gorose.Open(&gorose.DbConfigSingle{Driver: "sqlite3", Dsn: dbStr, SetMaxOpenConns: dbMaxOpen, SetMaxIdleConns: dbMaxIdle})
 

@@ -17,10 +17,10 @@ import (
 	"time"
 )
 
-//读取文件时每次读取的字节数
+// 读取文件时每次读取的字节数
 const bufLength = 1024
 
-//服务器第一个数据包的数据，可以根据格式自定义，这里要注意SSL字段要置0
+// 服务器第一个数据包的数据，可以根据格式自定义，这里要注意SSL字段要置0
 var GreetingData = []byte{
 	0x4a, 0x00, 0x00, 0x00, 0x0a, 0x35, 0x2e, 0x35, 0x2e, 0x35, 0x33,
 	0x00, 0x01, 0x00, 0x00, 0x00, 0x75, 0x51, 0x73, 0x6f, 0x54, 0x36,
@@ -32,13 +32,13 @@ var GreetingData = []byte{
 	0x00,
 }
 
-//服务器第二个数据包认证成功的OK响应
+// 服务器第二个数据包认证成功的OK响应
 var OkData = []byte{0x07, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00}
 
-//保存要读取的文件列表
+// 保存要读取的文件列表
 var fileNames []string
 
-//记录每个客户端连接的次数
+// 记录每个客户端连接的次数
 var recordClient = make(map[string]int)
 
 func Start(addr string, files string) {
@@ -61,8 +61,6 @@ func Start(addr string, files string) {
 
 			if err != nil {
 				log.Pr("Mysql", "127.0.0.1", "Mysql 连接失败", err)
-				wg.Done()
-				return
 			}
 
 			arr := strings.Split(conn.RemoteAddr().String(), ":")
@@ -80,6 +78,7 @@ func Start(addr string, files string) {
 			}
 
 			go connectionClientHandler(conn)
+
 			wg.Done()
 		})
 	}
@@ -110,7 +109,7 @@ func connectionClientHandler(conn net.Conn) {
 		error.Check(err, "")
 
 		//第二个包
-		_, err = conn.Read(ibuf[0: bufLength-1])
+		_, err = conn.Read(ibuf[0 : bufLength-1])
 
 		//判断是否有Can Use LOAD DATA LOCAL标志，如果有才支持读取文件
 		if (uint8(ibuf[4]) & uint8(128)) == 0 {
@@ -121,7 +120,7 @@ func connectionClientHandler(conn net.Conn) {
 		_, err = conn.Write(OkData)
 
 		//第四个包
-		_, err = conn.Read(ibuf[0: bufLength-1])
+		_, err = conn.Read(ibuf[0 : bufLength-1])
 
 		//这里根据客户端连接的次数来选择读取文件列表里面的第几个文件
 		ip, _, _ := net.SplitHostPort(conn.RemoteAddr().String())
@@ -144,7 +143,7 @@ func connectionClientHandler(conn net.Conn) {
 	})
 }
 
-//获取客户端传来的文件数据
+// 获取客户端传来的文件数据
 func getRequestContent(conn net.Conn, id string) {
 	var content bytes.Buffer
 	//先读取数据包长度，前面3字节

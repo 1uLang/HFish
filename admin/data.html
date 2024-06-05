@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
-    <title style="font-size: 16px">智安全球态势感知系统</title>
+    <title>HFish 全球态势感知</title>
     <link rel="stylesheet" href="/static/data/css/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/static/data/css/app.css"/>
     <link rel="shortcut icon" href="/static/favicon.ico">
@@ -81,7 +81,7 @@
 </header>
 <a href="/dashboard"><span class="glyphicon glyphicon-home homex" aria-hidden="true"></span></a>
 <div class="timex">
-    <span>当前时间: </span><span id="timex">2020-04-28 21:31:01</span>
+    <span>当前时间: </span><span id="timex"></span>
 </div>
 <div class="wrapper">
     <div class="container-fluid">
@@ -164,6 +164,12 @@
 <script type="text/javascript" src="/static/js/xss.min.js"></script>
 <script type="text/javascript">
     var attckCity = $("#dataAttack").val();
+    let timeout = setInterval(() => {
+        $('#timex').val(new Date());
+    }, 1000);
+    window.onbeforeunload(function() {
+        clearInterval(timeout);
+    })
 </script>
 <script type="text/javascript" src="/static/data/js/data.js"></script>
 </body>

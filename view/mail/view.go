@@ -1,14 +1,14 @@
 package mail
 
 import (
+	"HFish/core/dbUtil"
+	"HFish/error"
+	"HFish/utils/log"
+	"HFish/utils/send"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strings"
-	"HFish/core/dbUtil"
-	"HFish/utils/send"
-	"HFish/error"
 	"strconv"
-	"HFish/utils/log"
+	"strings"
 )
 
 func Html(c *gin.Context) {
@@ -36,14 +36,8 @@ func SendEmailToUsers(c *gin.Context) {
 	if status == "1" {
 		send.SendMail(eArr, title, content, config)
 
-		c.JSON(http.StatusOK, gin.H{
-			"code": error.ErrSuccessCode,
-			"msg":  error.ErrSuccessMsg,
-		})
+		c.JSON(http.StatusOK, error.ErrSuccess)
 	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"code": error.ErrFailMailCode,
-			"msg":  error.ErrFailMailMsg,
-		})
+		c.JSON(http.StatusOK, error.ErrFailMail)
 	}
 }

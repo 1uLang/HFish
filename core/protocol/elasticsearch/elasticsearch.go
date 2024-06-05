@@ -1,13 +1,13 @@
 package elasticsearch
 
 import (
+	"HFish/core/report"
+	"HFish/core/rpc/client"
+	"HFish/utils/is"
 	"fmt"
 	"net/http"
-	"time"
 	"strings"
-	"HFish/utils/is"
-	"HFish/core/rpc/client"
-	"HFish/core/report"
+	"time"
 )
 
 // Config represents the configuration information.

@@ -83,7 +83,7 @@ func Html(c *gin.Context) {
 
 func getData(sql string) map[string]interface{} {
 	var result []map[string]interface{}
-	result, err := dbUtil.DB().Table(&result).Query(sql)
+	result, err := dbUtil.DB().Query(sql)
 
 	if err != nil {
 		log.Pr("HFish", "127.0.0.1", "查询SQL失败", err)
@@ -525,11 +525,7 @@ func GetFishData(c *gin.Context) {
 		cache.Set("DashboardZxDq", data)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": error.ErrSuccessCode,
-		"msg":  error.ErrSuccessMsg,
-		"data": data,
-	})
+	c.JSON(http.StatusOK, error.ErrSuccessWithData(data))
 }
 
 // 仪表盘攻击饼图统计
@@ -581,9 +577,5 @@ func GetFishPieData(c *gin.Context) {
 		cache.Set("DashboardBarDq", data)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": error.ErrSuccessCode,
-		"msg":  error.ErrSuccessMsg,
-		"data": data,
-	})
+	c.JSON(http.StatusOK, error.ErrSuccessWithData(data))
 }

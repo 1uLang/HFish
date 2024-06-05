@@ -21,10 +21,8 @@ func Start(addr string) {
 	kvData = make(map[string]string)
 
 	//建立socket，监听端口
-	netListen, err := net.Listen("tcp", addr)
-	if err != nil {
-		panic(err)
-	}
+	netListen, _ := net.Listen("tcp", addr)
+
 	defer netListen.Close()
 
 	wg, poolX := pool.New(10)
@@ -61,7 +59,7 @@ func Start(addr string) {
 	}
 }
 
-//处理 Redis 连接
+// 处理 Redis 连接
 func handleConnection(conn net.Conn, id string) {
 
 	fmt.Println("redis ", id)
