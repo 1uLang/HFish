@@ -1,9 +1,9 @@
 package conf
 
 import (
-	"gopkg.in/ini.v1"
 	"HFish/utils/log"
 	"container/list"
+	"gopkg.in/ini.v1"
 )
 
 var cfg *ini.File
@@ -39,7 +39,6 @@ func Contains(l *list.List, value string) (bool, *list.Element) {
 func GetCustomName() []string {
 	names := cfg.SectionStrings()
 	var existConfig []string
-
 	rpcStatus := Get("rpc", "status")
 
 	// 判断 RPC 是否开启 1 RPC 服务端 2 RPC 客户端
@@ -83,7 +82,6 @@ func GetCustomName() []string {
 			"vnc",
 		}
 	}
-
 	for i := 0; i < len(names); i++ {
 		for j := 0; j < len(existConfig); j++ {
 

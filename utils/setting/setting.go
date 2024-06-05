@@ -20,7 +20,6 @@ import (
 	"HFish/utils/color"
 	"HFish/utils/conf"
 	"HFish/utils/cors"
-	"HFish/utils/ping"
 	"HFish/view"
 	"HFish/view/api"
 	"fmt"
@@ -169,7 +168,7 @@ func initCahe() {
 }
 
 func Run() {
-	ping.Ping()
+	//ping.Ping()
 
 	// 启动 自定义 蜜罐
 	custom.StartCustom()

@@ -209,7 +209,7 @@
     <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
         <div class="card-box tilebox-two">
             <i class="icon-cup pull-xs-right text-muted"></i>
-            <h6 class="lb_vnc text-uppercase m-b-15 m-t-10">CUSTOM</h6>
+            <h6 class="lb_vnc text-uppercase m-b-15 m-t-10">RDP</h6>
             <h2 class="m-b-10"><span data-plugin="counterup">{{.customSum}}</span></h2>
         </div>
     </div>
@@ -224,17 +224,17 @@
     <div class="col-md-2">
         <div class="card-box" style="height: 676px;">
             <p class="title">服务状态</p>
-        {{if eq .apiStatus "1"}}
-            <p><span class="openx"></span>API</p>
-        {{else}}
-            <p><span class="closex"></span>API</p>
-        {{end}}
+<!--        {{if eq .apiStatus "1"}}-->
+<!--            <p><span class="openx"></span>API</p>-->
+<!--        {{else}}-->
+<!--            <p><span class="closex"></span>API</p>-->
+<!--        {{end}}-->
 
-        {{if eq .apiStatus "1"}}
-            <p><span class="openx"></span>PLUG</p>
-        {{else}}
-            <p><span class="closex"></span>PLUG</p>
-        {{end}}
+<!--        {{if eq .apiStatus "1"}}-->
+<!--            <p><span class="openx"></span>PLUG</p>-->
+<!--        {{else}}-->
+<!--            <p><span class="closex"></span>PLUG</p>-->
+<!--        {{end}}-->
 
         {{if eq .webStatus "1"}}
             <p><span class="openx"></span>WEB</p>
@@ -311,9 +311,9 @@
         {{end}}
 
         {{if eq .customStatus "1"}}
-            <p><span class="openx"></span>CUSTOM</p>
+            <p><span class="openx"></span>RDP</p>
         {{else}}
-            <p><span class="closex"></span>CUSTOM</p>
+            <p><span class="closex"></span>RDP</p>
         {{end}}
 
         </div>
@@ -844,7 +844,7 @@
                         }
                     },
                     legend: {
-                        data: ['WEB', 'DEEP', 'SSH', 'REDIS', 'MYSQL', 'TELNET', 'FTP', 'MEMCACHE', 'HTTP', 'TFTP', 'VNC', 'ES', 'CUSTOM']
+                        data: ['WEB', 'DEEP', 'SSH', 'REDIS', 'MYSQL', 'TELNET', 'FTP', 'MEMCACHE', 'HTTP', 'TFTP', 'VNC', 'ES', 'RDP']
                     },
                     grid: {
                         left: '0%',
@@ -950,7 +950,7 @@
                             data: esData
                         },
                         {
-                            name: 'CUSTOM',
+                            name: 'RDP',
                             type: 'line',
                             stack: '总量',
                             areaStyle: {normal: {}},
